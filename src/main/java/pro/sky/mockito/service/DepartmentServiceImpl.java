@@ -1,5 +1,6 @@
 package pro.sky.mockito.service;
 
+import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import pro.sky.mockito.exceptions.EmployeeNotFoundException;
@@ -12,37 +13,34 @@ import java.util.Map;
 import java.util.stream.Collectors;
 
 @Service
+@RequiredArgsConstructor
 public class DepartmentServiceImpl implements DepartmentService{
 
     private final EmployeeService employeeService;
 
-    public DepartmentServiceImpl(EmployeeService employeeService) {
-        this.employeeService = employeeService;
-    }
-
     @Override
     public BigDecimal getMinSalary(Integer departmentId) {
         return employeeService.getAllEmployees().stream()
-                .filter((employee) -> employee.getDepartment().equals(departmentId))
+                .filter(employee -> employee.getDepartment().equals(departmentId))
                 .map(Employee::getSalary)
                 .sorted()
                 .findFirst()
-                .orElseThrow(() -> new EmployeeNotFoundException("Employee not found", HttpStatus.BAD_REQUEST));
+                .orElseThrow(() -> new EmployeeNotFoundException("Employee not found"));
     }
 
     @Override
     public BigDecimal getMaxSalary(Integer departmentId) {
         return employeeService.getAllEmployees().stream()
-                .filter((employee) -> employee.getDepartment().equals(departmentId))
+                .filter(employee -> employee.getDepartment().equals(departmentId))
                 .map(Employee::getSalary)
                 .max(Comparator.comparing((salary) -> salary))
-                .orElseThrow(() -> new EmployeeNotFoundException("Employee not found", HttpStatus.BAD_REQUEST));
+                .orElseThrow(() -> new EmployeeNotFoundException("Employee not found"));
     }
 
     @Override
     public BigDecimal getSumSalary(Integer departmentId) {
         return employeeService.getAllEmployees().stream()
-                .filter((employee) -> employee.getDepartment().equals(departmentId))
+                .filter(employee -> employee.getDepartment().equals(departmentId))
                 .map(Employee::getSalary)
                 .reduce(BigDecimal.ZERO, BigDecimal::add);
     }

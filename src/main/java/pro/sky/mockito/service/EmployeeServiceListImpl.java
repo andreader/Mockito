@@ -1,6 +1,5 @@
 package pro.sky.mockito.service;
-
-import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import pro.sky.mockito.exceptions.ArrayIsFullException;
@@ -14,6 +13,7 @@ import java.util.*;
 import static pro.sky.mockito.utils.Constants.EMPLOYEE_AMOUNT;
 
 @Service
+@RequiredArgsConstructor
 public class EmployeeServiceListImpl implements EmployeeService {
 
     private final List<Employee> employees = new ArrayList<>(EMPLOYEE_AMOUNT);
@@ -23,16 +23,16 @@ public class EmployeeServiceListImpl implements EmployeeService {
     public Employee addEmployee(String name, Integer department, BigDecimal salary) {
         Employee newEmployee = new Employee(name, department, salary);
         getAllEmployees().stream()
-                .filter(emp -> emp.equals(newEmployee))
+                .filter(employee -> employee.equals(newEmployee))
                 .findAny()
-                .ifPresent(emp -> {
+                .ifPresent(employee -> {
                     throw new EmployeeAlreadyAddedException("Employee " + name +
                             " in department " + department +
                             " with salary " + salary +
-                            " is already added", HttpStatus.BAD_REQUEST);
+                            " is already added");
                 });
         if (getAllEmployees().size() >= EMPLOYEE_AMOUNT) {
-            throw new ArrayIsFullException("List of employees is full", HttpStatus.BAD_REQUEST);
+            throw new ArrayIsFullException("List of employees is full");
         }
 
         employees.add(newEmployee);
@@ -48,10 +48,10 @@ public class EmployeeServiceListImpl implements EmployeeService {
     @Override
     public Employee findEmployee(String name) {
         return getAllEmployees().stream()
-                .filter(e -> e.getName().equals(name))
+                .filter(employee -> employee.getName().equals(name))
                 .findFirst()
                 .orElseThrow(() -> new EmployeeNotFoundException("Employee " + name +
-                        " not found", HttpStatus.BAD_REQUEST));
+                        " not found"));
     }
 
     @Override

@@ -4,7 +4,8 @@ import org.springframework.http.HttpStatus;
 
 public class ResponseException extends RuntimeException {
 
-    public ResponseException(String message, HttpStatus status) {
+
+    public ResponseException(String message, HttpStatus badRequest) {
         super(message);
     }
 

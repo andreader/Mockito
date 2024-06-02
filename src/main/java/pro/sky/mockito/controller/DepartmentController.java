@@ -1,7 +1,9 @@
 package pro.sky.mockito.controller;
 
 import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import pro.sky.mockito.model.Employee;
@@ -14,7 +16,7 @@ import java.util.Map;
 
 @RestController
 @RequestMapping("/departments")
-@AllArgsConstructor
+@RequiredArgsConstructor
 public class DepartmentController {
     private final DepartmentService departmentService;
 
@@ -33,10 +35,10 @@ public class DepartmentController {
         return departmentService.groupAllEmployeesByDepartments();
     }
 
-    @GetMapping("/sum-salary")
-    public BigDecimal getSumSalary(Integer departmentId) {
-        return departmentService.getSumSalary(departmentId);
-    };
+    @GetMapping("/department/{id}/salary/sum")
+    public BigDecimal getSumSalary(@PathVariable Integer id) {
+        return departmentService.getSumSalary(id);
+    }
 
     @GetMapping("/employees-department")
     public List<Employee> getEmployeesOfDepartment(Integer departmentId) {

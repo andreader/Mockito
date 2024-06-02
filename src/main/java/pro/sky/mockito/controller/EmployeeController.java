@@ -1,4 +1,5 @@
 package pro.sky.mockito.controller;
+import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 import pro.sky.mockito.model.Employee;
 import pro.sky.mockito.service.EmployeeService;
@@ -10,13 +11,10 @@ import java.util.Map;
 
 @RestController
 @RequestMapping("/employees")
+@RequiredArgsConstructor
 public class EmployeeController {
 
     private final EmployeeService employeeService;
-
-    public EmployeeController(EmployeeService employeeService) {
-        this.employeeService = employeeService;
-    }
 
     @PostMapping("/add-employee")
     public Employee addEmployee(@RequestParam String name, @RequestParam Integer department, @RequestParam BigDecimal salary) {

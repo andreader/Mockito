@@ -80,12 +80,9 @@ class DepartmentServiceImplTest {
     @Test
     void getEmployeesOfDepartment() {
         //given
-        Employee e1;
-        Employee e2;
-        List<Employee> expected;
-        e1 = new Employee("Иван", 1, BigDecimal.valueOf(1000));
-        e2 = new Employee("Сергей", 1, BigDecimal.valueOf(2000));
-        expected = List.of(e1, e2);
+        Employee  e1 = new Employee("Иван", 1, BigDecimal.valueOf(1000));
+        Employee  e2 = new Employee("Сергей", 1, BigDecimal.valueOf(2000));
+        List<Employee> expected = List.of(e1, e2);
         //when
         List<Employee> actual = departmentService.getEmployeesOfDepartment(1);
         //then
